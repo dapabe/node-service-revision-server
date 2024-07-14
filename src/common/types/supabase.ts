@@ -7,9 +7,26 @@ export type Json =
   | Json[]
 
 export type Database = {
-  public: {
+  pago_mis_servicios: {
     Tables: {
-      [_ in never]: never
+      servicios_en_revision: {
+        Row: {
+          deleted_at: string | null
+          on_revision: boolean
+          service_name: string
+        }
+        Insert: {
+          deleted_at?: string | null
+          on_revision: boolean
+          service_name: string
+        }
+        Update: {
+          deleted_at?: string | null
+          on_revision?: boolean
+          service_name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -107,4 +124,3 @@ export type Enums<
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
-
