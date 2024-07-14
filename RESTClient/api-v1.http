@@ -10,6 +10,6 @@ GET http://{{hostname}}:{{port}}/ping HTTP/1.1
 
 ###
 # Get all services with revision status
-GET http://{{host}}/services-statuses HTTP/1.1
+GET http://{{host}}/services/statuses HTTP/1.1
 content-type: application/json
 

@@ -1,14 +1,14 @@
 import * as express from "express"
 import { Controller } from "#/common/abstracts/controller.abs";
 
-export class ServicesOnRevisionController extends Controller {
+export class ServicesController extends Controller {
   constructor(req: express.Request, res: express.Response){
     super(req,res)
   }
 
   async all(){
     const res = await this.CONN
-      .from("pago_mis_servicios")
+      .from("servicios_en_revision")
       .select("*");
 
     if(res.error) return this.res

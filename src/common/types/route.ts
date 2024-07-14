@@ -1,7 +1,9 @@
 import { RequestHandler, Router } from "express";
+import { Route } from "../abstracts/route.abs";
+
+export type IRoutePath = `/${string}`
 
 export type IAppRoute = {
-  path: string;
   middlewares: RequestHandler[];
-  router: Router
+  route: Route
 }

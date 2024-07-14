@@ -1,7 +1,9 @@
 import { Router } from "express";
+import { IRoutePath } from "../types/route";
 
 export abstract class Route {
-  ROUTER: Router;
+  public ROUTER: Router;
+  public BASE_ROUTE_NAME!: IRoutePath;
   #CONTROLLER: any
 
   constructor(controller: any){

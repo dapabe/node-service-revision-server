@@ -31,7 +31,11 @@ export class App {
    *  Database connection
    */
   async getConnection(): Promise<void> {
-    App.#SUPA_CONN = createClient<Database>(DefaultEnv.SUPA_REST_URL, DefaultEnv.SUPA_PUB_KEY)
+    App.#SUPA_CONN = createClient<Database>(DefaultEnv.SUPA_REST_URL, DefaultEnv.SUPA_KEY, {
+      db:{
+        schema: "pago_mis_servicios"
+      },
+    })
   }
 
   /**
@@ -54,14 +58,16 @@ export class App {
     this.#EXP.use("/ping",(_,res)=>{
       res.sendStatus(204)
     })
-    this.#EXP.use("/api/v1/service-statuses", AppRoutes.v1[0].router)
-    // for(const [version, routes] of Object.entries(AppRoutes)) {
-    //   for (const config of routes) {
-    //     const routePath = path.join("api", version, config.path)
-    //     console.log(routePath)
-    //     this.#EXP.use(routePath, config.router)
-    //   }
-    // }
+
+    for(const [version, routes] of Object.entries(AppRoutes)) {
+      for (const config of routes) {
+        this.#EXP.use(
+        `/api${version}${config.route.BASE_ROUTE_NAME}`,
+        ...config.middlewares, 
+        config.route.ROUTER
+        )
+      }
+    }
 
     this.#EXP.use((_, res, next): void => {
         res.status(404);
