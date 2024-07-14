@@ -16,8 +16,8 @@ export class ServicesController extends Controller {
       .send({error: res.error.message});
 
     let record = {}
-    for (const {service_name, on_revision} of res.data) {
-      record[service_name] = on_revision
+    for (const {service_name, on_revision, deleted_at} of res.data) {
+      if(!deleted_at) record[service_name] = on_revision
     }
 
     return this.res.status(200).send(record)
