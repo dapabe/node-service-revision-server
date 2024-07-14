@@ -1,10 +1,12 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import express from "express";
-import * as http from "http"
+import * as http from "node:http"
 import { AppRoutes } from "./Router";
 import { DefaultEnv } from "./common/env";
 import { Database } from "./common/types/supabase";
 import { DatabaseClient } from "./common/types/random";
+import umbress from "umbress";
+import logger from "morgan"
 
 export class App {
   readonly #EXP = express();
@@ -42,9 +44,17 @@ export class App {
   * Config express middlewares
   */
   #configureExpress(): void {
-    // this.#EXP.use(logger('dev'));
-    // this.#EXP.use(express.json());
-    this.#EXP.use(express.urlencoded({ extended: false }));
+    this.#EXP.use(logger('combined'));
+    this.#EXP.use(express.urlencoded({ extended: true }));
+    //  Protection rules
+    // this.#EXP.use(umbress({
+    //   rateLimiter: {
+    //     enabled: true,
+    //     requests: 60,
+    //     per: 60000, // 1 min
+    //     banFor: 8.64e+7, // 24 hours
+    //   }
+    // }))
     this.#EXP.use((_, res, next): void => {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization");

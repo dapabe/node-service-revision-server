@@ -5,6 +5,6 @@ export default defineConfig(async (opts) => {
     format: 'esm',
     clean: true,
     entry: ['src/index.ts'],
-    minify: !opts.watch,
+    minify: opts.env?.NODE_ENV === "production",
   }
 });
