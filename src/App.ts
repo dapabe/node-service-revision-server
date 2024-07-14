@@ -2,9 +2,9 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import express from "express";
 import * as http from "http"
 import { AppRoutes } from "./Router";
-import path from "path";
 import { DefaultEnv } from "./common/env";
-import { Database, DatabaseClient } from "./common/types/supabase";
+import { Database } from "./common/types/supabase";
+import { DatabaseClient } from "./common/types/random";
 
 export class App {
   readonly #EXP = express();
@@ -31,7 +31,7 @@ export class App {
    *  Database connection
    */
   async getConnection(): Promise<void> {
-    App.#SUPA_CONN = createClient<Database>(DefaultEnv.SUPA_URL, DefaultEnv.SUPA_PUB_KEY)
+    App.#SUPA_CONN = createClient<Database>(DefaultEnv.SUPA_REST_URL, DefaultEnv.SUPA_PUB_KEY)
   }
 
   /**
@@ -54,7 +54,7 @@ export class App {
     this.#EXP.use("/ping",(_,res)=>{
       res.sendStatus(204)
     })
-    this.#EXP.use("/api/v1/on-revision", AppRoutes.v1[0].router)
+    this.#EXP.use("/api/v1/service-statuses", AppRoutes.v1[0].router)
     // for(const [version, routes] of Object.entries(AppRoutes)) {
     //   for (const config of routes) {
     //     const routePath = path.join("api", version, config.path)

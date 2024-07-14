@@ -7,13 +7,14 @@
   "scripts": {
     "dev": "tsup --env.NODE_ENV development",
     "build": "tsup --env.NODE_ENV production",
-    "serve": "node --env-file=.env.development ./dist/index.js",
-    "start": "node --env-file=.env.production ./dist/index.js"
+    "serve": "node --env-file=.env ./dist/index.js",
+    "start": "node --env-file=.env ./dist/index.js",
+    "gen": "node --env-file=.env ./scripts/genSupaTypes.js"
   },
   "author": "Daniel Patricio Becerra",
   "license": "ISC",
   "dependencies": {
-    "@supabase/supabase-js": "2.44.3",
+    "@supabase/supabase-js": "^2.44.3",
     "express": "4.19.2",
     "tsup": "8.1.0"
   },

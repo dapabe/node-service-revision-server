@@ -1,5 +1,3 @@
-import { SupabaseClient } from "@supabase/supabase-js"
-
 export type Json =
   | string
   | number
@@ -11,21 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      "Services-on-revision": {
-        Row: {
-          on_revision: boolean
-          service_name: string
-        }
-        Insert: {
-          on_revision: boolean
-          service_name: string
-        }
-        Update: {
-          on_revision?: boolean
-          service_name?: string
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
@@ -124,4 +108,3 @@ export type Enums<
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
-export type DatabaseClient = SupabaseClient<Database>

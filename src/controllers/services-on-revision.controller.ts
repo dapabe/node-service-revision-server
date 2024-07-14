@@ -8,7 +8,7 @@ export class ServicesOnRevisionController extends Controller {
 
   async all(){
     const res = await this.CONN
-      .from("Services-on-revision")
+      .from("pago_mis_servicios")
       .select("*");
 
     if(res.error) return this.res
@@ -16,10 +16,10 @@ export class ServicesOnRevisionController extends Controller {
       .send({error: res.error.message});
 
     let record = {}
-    for (const {service_name,on_revision} of res.data) {
+    for (const {service_name, on_revision} of res.data) {
       record[service_name] = on_revision
     }
 
-    return this.res.send(record)
+    return this.res.status(200).send(record)
   }
 }

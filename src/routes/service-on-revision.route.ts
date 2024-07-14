@@ -5,6 +5,6 @@ export class ServicesOnRevisionRoute extends Route {
   constructor() {
     super(ServicesOnRevisionController)
     this.ROUTER
-      .get("/", this.handler(ServicesOnRevisionController.prototype.all));
+      .get("statuses", this.handler(ServicesOnRevisionController.prototype.all));
   }
 }
