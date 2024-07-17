@@ -1,12 +1,13 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import express from "express";
+import express, { Router } from "express";
 import * as http from "node:http"
 import { AppRoutes } from "./Router";
 import { DefaultEnv } from "./common/env";
 import { Database } from "./common/types/supabase";
 import { DatabaseClient } from "./common/types/random";
-import umbress from "umbress";
 import logger from "morgan"
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 
 export class App {
   readonly #EXP = express();
@@ -45,29 +46,25 @@ export class App {
   */
   #configureExpress(): void {
     this.#EXP.use(logger('combined'));
-    this.#EXP.use(express.urlencoded({ extended: true }));
-    //  Protection rules
-    // this.#EXP.use(umbress({
-    //   rateLimiter: {
-    //     enabled: true,
-    //     requests: 60,
-    //     per: 60000, // 1 min
-    //     banFor: 8.64e+7, // 24 hours
-    //   }
-    // }))
+    this.#EXP.use(express.json())
+    this.#EXP.use(express.urlencoded({ extended: true}));
+    //  Protection middlewares
+    this.#EXP.use(rateLimit({
+      windowMs: 60_000,
+      limit: 40,
+      standardHeaders: true,
+    }))
+    this.#EXP.use(helmet())
     this.#EXP.use((_, res, next): void => {
         res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization");
+        res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
         res.header("Access-Control-Allow-Methods", "GET,OPTIONS");
         next();
     });
-    //this.app.use(cookieParser());
   }
 
   #configureRouter(): void {
-    this.#EXP.use("/ping",(_,res)=>{
-      res.sendStatus(204)
-    })
+    this.#EXP.use("/ping", Router().get("/", (_,res)=> res.sendStatus(204)))
 
     for(const [version, routes] of Object.entries(AppRoutes)) {
       for (const config of routes) {

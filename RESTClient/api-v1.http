@@ -5,11 +5,32 @@
 @host = {{hostname}}:{{port}}/{{extra-url}}/{{version}}
 
 ###
-# Ping
+// Ping
 GET http://{{hostname}}:{{port}}/ping HTTP/1.1
 
-###
-# Get all services with revision status
+### DEV-MODE
+// Insert new service
+POST http://{{host}}/services/ HTTP/1.1
+Content-Type: application/json
+
+[
+  {
+    "service_name": "Edenor"
+  }
+]
+
+### DEV-MODE
+//  Deletes a service
+DELETE http://{{host}}/services/
+  ?names=Edenor
+
+### 
+// Get all services with revision status
 GET http://{{host}}/services/statuses HTTP/1.1
-content-type: application/json
+Content-Type: application/json
+
+### DEV-MODE
+// Toggle service status
+POST http://{{host}}/services/statuses
+  ?toggle=Edenor HTTP/1.1
 
