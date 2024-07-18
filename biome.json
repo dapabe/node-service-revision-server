@@ -1,0 +1,13 @@
+{
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"ignore": ["./node_modules", "./vscode"],
+		"enabled": true,
+		"rules": {
+			"recommended": true
+		}
+	}
+}

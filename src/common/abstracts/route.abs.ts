@@ -7,19 +7,20 @@ import { Controller } from "./controller.abs";
  *  controller methods.
  */
 export abstract class Route {
-  public ROUTER: Router;
-  public BASE_ROUTE_NAME!: IRoutePath;
-  #CONTROLLER: any
+	public ROUTER: Router;
+	public BASE_ROUTE_NAME!: IRoutePath;
+	#CONTROLLER: any;
 
-  constructor(controller: typeof Controller){
-    this.#CONTROLLER = controller;
-    this.ROUTER = Router()
-  }
+	constructor(controller: typeof Controller) {
+		this.#CONTROLLER = controller;
+		this.ROUTER = Router();
+	}
 
-  /**
-   * Passing down the method to controller.
-   */
-  protected handler(action: () => void): any {
-    return (req: Request, res: Response) => action.call(new this.#CONTROLLER(req, res));
-  }
+	/**
+	 * Passing down the method to controller.
+	 */
+	protected handler(action: () => void): any {
+		return (req: Request, res: Response) =>
+			action.call(new this.#CONTROLLER(req, res));
+	}
 }
