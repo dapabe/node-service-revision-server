@@ -1,10 +1,10 @@
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { createClient } from "@supabase/supabase-js";
 import express, { Router } from "express";
 import * as http from "node:http";
 import { AppRoutes } from "./Router";
 import { DefaultEnv } from "./common/env";
-import { Database } from "./common/types/supabase";
-import { DatabaseClient } from "./common/types/random";
+import type { Database } from "./common/types/supabase";
+import type { DatabaseClient } from "./common/types/random";
 import logger from "morgan";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
@@ -23,10 +23,13 @@ export class App {
 	/**
 	 *  Start server
 	 */
-	async start(): Promise<http.Server> {
+	async start(port: number): Promise<http.Server> {
 		await this.getConnection();
 		this.#configureExpress();
 		this.#configureRouter();
+
+		this.#SERVER.listen(port)
+
 		return this.#SERVER;
 	}
 
