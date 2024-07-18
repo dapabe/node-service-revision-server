@@ -48,7 +48,7 @@ export class ServicesController extends Controller {
 		const res = await this.CONN
 			.from("servicios_en_revision")
 			.insert(this.req.body);
-
+		console.log(res)
 		this.handleSupaError(res);
 
 		return this.res.status(res.status).send(res.statusText);

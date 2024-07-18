@@ -18,7 +18,7 @@ export abstract class Controller {
 
 	protected async handleSupaError<T>(res: PostgrestSingleResponse<T>) {
 		if (res.error) {
-			return this.res.send(res.status).send({ error: res.error.message });
+			return this.res.status(res.status).send({ error: res.statusText, message: res.error.message });
 		}
 	}
 }

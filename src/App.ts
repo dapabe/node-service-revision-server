@@ -57,6 +57,7 @@ export class App {
 	#configureServer(): void {
 		const stream = rfs.createStream("server.log", {
 			interval: "1d",
+			compress: true,
 			path: path.join(path.resolve(), DefaultEnv.DEV_MODE ? "dist" : "logs")
 		})
 		const loggerFormat = DefaultEnv.DEV_MODE ? "dev" : ":remote-addr :remote-user [:date[iso]] :method :url HTTP/:http-version :status :res[content-length] | :response-time ms"
