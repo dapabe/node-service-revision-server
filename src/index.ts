@@ -22,6 +22,6 @@ server.on("error", (error: any) => {
 
 server.on("listening", () => {
 	console.log(
-		`Server started in http://localhost:${DefaultEnv.PORT}, Proccess ID:${process.pid}`,
+		`Server started in http://localhost:${DefaultEnv.PORT}, Process ID:${process.pid}`,
 	);
 });

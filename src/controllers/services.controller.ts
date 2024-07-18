@@ -1,11 +1,7 @@
 import { Controller } from "#/common/abstracts/controller.abs";
-import { Tables, TablesInsert } from "#/common/types/supabase";
-import e from "express";
+import type e from "express";
 
 export class ServicesController extends Controller {
-	constructor(req: e.Request, res: e.Response) {
-		super(req, res);
-	}
 
 	async all(): Promise<e.Response> {
 		const res = await this.CONN.from("servicios_en_revision").select(
@@ -14,7 +10,7 @@ export class ServicesController extends Controller {
 
 		this.handleSupaError(res);
 
-		let record = {};
+		const record = {};
 		for (const { service_name, on_revision } of res.data!) {
 			record[service_name] = on_revision;
 		}
@@ -23,10 +19,10 @@ export class ServicesController extends Controller {
 	}
 
 	async toggleStatus(): Promise<e.Response> {
-		const toggleQ = this.req.query["toggle"] as string;
+		const toggleQ = this.req.query.toggle as string;
 
 		/**
-		 *  On said services toggle current boolean value.
+		 *  On selected services toggle current boolean value.
 		 */
 		const res1 = await this.CONN.from("servicios_en_revision")
 			.select("service_name, on_revision")
@@ -39,17 +35,19 @@ export class ServicesController extends Controller {
 			on_revision: !x.on_revision,
 		}));
 
-		const res2 = await this.CONN.from("servicios_en_revision").upsert(updates);
+		const res2 = await this.CONN
+			.from("servicios_en_revision")
+			.upsert(updates);
 
 		this.handleSupaError(res2);
 
-		return this.res.sendStatus(200);
+		return this.res.status(res2.status).send(res2.statusText);
 	}
 
 	async add(): Promise<e.Response> {
-		const res = await this.CONN.from("servicios_en_revision").insert(
-			this.req.body as any,
-		);
+		const res = await this.CONN
+			.from("servicios_en_revision")
+			.insert(this.req.body);
 
 		this.handleSupaError(res);
 
@@ -57,7 +55,7 @@ export class ServicesController extends Controller {
 	}
 
 	async delete(): Promise<e.Response> {
-		const namesQ = this.req.query["names"] as string;
+		const namesQ = this.req.query.names as string;
 		const res = await this.CONN.from("servicios_en_revision")
 			.delete()
 			.in("service_name", namesQ.split(","));

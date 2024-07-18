@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { IRoutePath } from "../types/route";
-import { Controller } from "./controller.abs";
+import type { IRoutePath } from "../types/route";
+import type { Controller } from "./controller.abs";
 
 /**
  *  Base route layer to access and trigger \
@@ -9,6 +9,7 @@ import { Controller } from "./controller.abs";
 export abstract class Route {
 	public ROUTER: Router;
 	public BASE_ROUTE_NAME!: IRoutePath;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	#CONTROLLER: any;
 
 	constructor(controller: typeof Controller) {
@@ -19,6 +20,8 @@ export abstract class Route {
 	/**
 	 * Passing down the method to controller.
 	 */
+
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	protected handler(action: () => void): any {
 		return (req: Request, res: Response) =>
 			action.call(new this.#CONTROLLER(req, res));

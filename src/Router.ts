@@ -1,4 +1,4 @@
-import { IAppRoute } from "./common/types/route";
+import type { IAppRoute } from "./common/types/route";
 import { ServicesRoute } from "./routes/services.route";
 
 export type VersionedAPI = "/v1";

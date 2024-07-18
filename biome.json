@@ -4,10 +4,13 @@
 		"enabled": true
 	},
 	"linter": {
-		"ignore": ["./node_modules", "./vscode"],
+		"ignore": ["./node_modules/**", "./vscode/**", "./dist/**"],
 		"enabled": true,
 		"rules": {
 			"recommended": true,
+			"style": {
+				"noNonNullAssertion": "off"
+			},
 			"suspicious": {
 				"noExplicitAny": "warn"
 			}

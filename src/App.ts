@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import express, { Router } from "express";
+import express, { type RequestHandler, Router } from "express";
 import * as http from "node:http";
 import { AppRoutes } from "./Router";
 import { DefaultEnv } from "./common/env";
@@ -8,6 +8,8 @@ import type { DatabaseClient } from "./common/types/random";
 import logger from "morgan";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import * as rfs from "rotating-file-stream"
+import path from "node:path";
 
 export class App {
 	readonly #EXP = express();
@@ -25,10 +27,11 @@ export class App {
 	 */
 	async start(port: number): Promise<http.Server> {
 		await this.getConnection();
+		this.#configureServer()
 		this.#configureExpress();
 		this.#configureRouter();
 
-		this.#SERVER.listen(port)
+		this.#SERVER.listen(port);
 
 		return this.#SERVER;
 	}
@@ -49,10 +52,21 @@ export class App {
 	}
 
 	/**
+	 * 	Configure server things
+	 */
+	#configureServer(): void {
+		const stream = rfs.createStream("server.log", {
+			interval: "1d",
+			path: path.join(path.resolve(), DefaultEnv.DEV_MODE ? "dist" : "logs")
+		})
+		const loggerFormat = DefaultEnv.DEV_MODE ? "dev" : ":remote-addr :remote-user [:date[iso]] :method :url HTTP/:http-version :status :res[content-length] | :response-time ms"
+		this.#EXP.use(logger(loggerFormat, { stream }));
+	}
+
+	/**
 	 * Config express middlewares
 	 */
 	#configureExpress(): void {
-		this.#EXP.use(logger("combined"));
 		this.#EXP.use(express.json());
 		this.#EXP.use(express.urlencoded({ extended: true }));
 		//  Protection middlewares

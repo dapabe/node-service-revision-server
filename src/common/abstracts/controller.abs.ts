@@ -1,6 +1,6 @@
 import { App } from "#/App";
-import { PostgrestSingleResponse } from "@supabase/supabase-js";
-import express from "express";
+import type { PostgrestSingleResponse } from "@supabase/supabase-js";
+import type express from "express";
 
 /**
  *  Base Controller to acces and manipulate Supabase \
