@@ -1,24 +1,31 @@
 import { App } from "#/App";
-import {PostgrestSingleResponse } from "@supabase/supabase-js";
-import express from "express"
+import type e from "express";
+import { CustomSupabaseError } from "../errors/CustomSupabase.error";
 
 /**
  *  Base Controller to acces and manipulate Supabase \
  *  data.
  */
 export abstract class Controller {
-  public req: express.Request;
-  public res: express.Response;
-  protected CONN = App.SUPA
-  
-  constructor(req: express.Request, res: express.Response){
-    this.req = req;
-    this.res = res;
-  }
+	protected req: e.Request;
+	protected res: e.Response;
+	protected next: e.NextFunction;
 
-  protected async handleSupaError<T>(res: PostgrestSingleResponse<T>){
-    if(res.error){
-      return this.res.send(res.status).send({error: res.error.message})
-    }
-  }
+	protected CONN = App.SUPA;
+
+	constructor(req: e.Request, res: e.Response, next: e.NextFunction) {
+		this.req = req;
+		this.res = res;
+		this.next = next
+	}
+
+	protected async handleRequestError(unk: unknown): Promise<e.Response> {
+		if (unk instanceof CustomSupabaseError) {
+			return this.res
+				.status(unk.status)
+				.send({ error: unk.statusText, message: unk.data.details });
+		}
+
+		return this.res.status(501).send({ error: "Unhandled error", message: JSON.stringify(unk) })
+	}
 }
