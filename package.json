@@ -9,6 +9,7 @@
 		"build": "tsup --env.NODE_ENV production",
 		"serve": "node --env-file=.env ./dist/index.js",
 		"start": "node --env-file=.env ./dist/index.js",
+		"render:start": "pnpm build | pnpm start",
 		"gen": "node --env-file=.env ./scripts/genSupaTypes.js"
 	},
 	"author": "Daniel Patricio Becerra",
