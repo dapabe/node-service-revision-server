@@ -25,13 +25,10 @@ export class App {
 	/**
 	 *  Start server
 	 */
-	async start(port: number): Promise<http.Server> {
+	async start(): Promise<http.Server> {
 		await this.getConnection();
-		this.#configureServer()
 		this.#configureExpress();
 		this.#configureRouter();
-
-		this.#SERVER.listen(port);
 
 		return this.#SERVER;
 	}
@@ -52,24 +49,20 @@ export class App {
 	}
 
 	/**
-	 * 	Configure server things
+	 * Config express middlewares
 	 */
-	#configureServer(): void {
+	#configureExpress(): void {
 		const stream = rfs.createStream("server.log", {
 			interval: "1d",
 			compress: true,
 			path: path.join(path.resolve(), DefaultEnv.DEV_MODE ? "dist" : "logs")
 		})
-		const loggerFormat = DefaultEnv.DEV_MODE ? "dev" : ":remote-addr :remote-user [:date[iso]] :method :url HTTP/:http-version :status :res[content-length] | :response-time ms"
-		this.#EXP.use(logger(loggerFormat, { stream }));
-	}
+		this.#EXP.use(logger(":remote-addr :remote-user [:date[iso]] :method :url HTTP/:http-version :status :res[content-length] | :response-time ms", { stream }));
 
-	/**
-	 * Config express middlewares
-	 */
-	#configureExpress(): void {
 		this.#EXP.use(express.json());
+
 		this.#EXP.use(express.urlencoded({ extended: true }));
+
 		//  Protection middlewares
 		this.#EXP.use(
 			rateLimit({
@@ -78,7 +71,9 @@ export class App {
 				standardHeaders: true,
 			}),
 		);
+
 		this.#EXP.use(helmet());
+
 		this.#EXP.use((_, res, next): void => {
 			res.header("Access-Control-Allow-Origin", "*");
 			res.header(

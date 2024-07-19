@@ -9,6 +9,10 @@ export class ServicesRoute extends Route {
 	constructor() {
 		super(ServicesController);
 		this.BASE_ROUTE_NAME = "/services";
+
+		/**
+		 * 	Create new services
+		 */
 		this.ROUTER.post(
 			"/",
 			DevModeMiddleware,
@@ -21,23 +25,38 @@ export class ServicesRoute extends Route {
 					.array(),
 			),
 			this.handler(ServicesController.prototype.add),
-		)
-			.delete(
-				"/",
-				DevModeMiddleware,
-				QueryValidator({
-					names: z.string(),
-				}),
-				this.handler(ServicesController.prototype.delete),
-			)
-			.get("/statuses", this.handler(ServicesController.prototype.all))
-			.post(
-				"/statuses",
-				DevModeMiddleware,
-				QueryValidator({
-					toggle: z.string(),
-				}),
-				this.handler(ServicesController.prototype.toggleStatus),
-			);
+		);
+
+		/**
+		 * 	Deletes existing services
+		 */
+		this.ROUTER.delete(
+			"/",
+			DevModeMiddleware,
+			QueryValidator({
+				names: z.string(),
+			}),
+			this.handler(ServicesController.prototype.delete),
+		);
+
+		/**
+		 * 	Returns services and their current revision status
+		 */
+		this.ROUTER.get(
+			"/statuses",
+			this.handler(ServicesController.prototype.all)
+		);
+
+		/**
+		 * 	Toggle selected service status
+		 */
+		this.ROUTER.post(
+			"/statuses",
+			DevModeMiddleware,
+			QueryValidator({
+				toggle: z.string(),
+			}),
+			this.handler(ServicesController.prototype.toggleStatus),
+		);
 	}
 }

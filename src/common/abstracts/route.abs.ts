@@ -1,3 +1,4 @@
+import type e from "express";
 import { Router } from "express";
 import type { IRoutePath } from "../types/route";
 import type { Controller } from "./controller.abs";
@@ -23,7 +24,7 @@ export abstract class Route {
 
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	protected handler(action: () => void): any {
-		return (req: Request, res: Response) =>
-			action.call(new this.#CONTROLLER(req, res));
+		return (req: e.Request, res: e.Response, next: e.NextFunction) =>
+			action.call(new this.#CONTROLLER(req, res, next));
 	}
 }
