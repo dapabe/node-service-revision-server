@@ -22,10 +22,9 @@ server.on("error", (error: any) => {
 	return process.exit(1);
 });
 
-if (DefaultEnv.DEV_MODE) {
-	server.on("listening", () => {
-		console.log(
-			`Server started in http://${DefaultEnv.HOSTNAME}:${DefaultEnv.PORT}, Process ID:${process.pid}`,
-		);
-	});
-}
+server.on("listening", () => {
+	console.log(
+		`Server started in http://${DefaultEnv.HOSTNAME}:${DefaultEnv.PORT}, Process ID:${process.pid}`,
+	);
+});
+
