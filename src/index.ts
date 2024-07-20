@@ -3,7 +3,7 @@ import { DefaultEnv } from "./common/env";
 
 const server = await new App().start()
 
-server.listen(DefaultEnv.PORT);
+server.listen(DefaultEnv.PORT, DefaultEnv.HOSTNAME);
 
 server.on("error", (error: any) => {
 	if (error.syscall !== "listen") {
@@ -25,7 +25,7 @@ server.on("error", (error: any) => {
 if (DefaultEnv.DEV_MODE) {
 	server.on("listening", () => {
 		console.log(
-			`Server started in http://localhost:${DefaultEnv.PORT}, Process ID:${process.pid}`,
+			`Server started in http://${DefaultEnv.HOSTNAME}:${DefaultEnv.PORT}, Process ID:${process.pid}`,
 		);
 	});
 }
