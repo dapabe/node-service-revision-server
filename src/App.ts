@@ -97,7 +97,7 @@ export class App {
 	#configureRouter(): void {
 		this.#EXP.use(
 			"/ping",
-			Router().get("/", (_, res) => res.sendStatus(200)),
+			Router().get("/", (_, res) => res.status(200).send()),
 		);
 
 		for (const [version, routes] of Object.entries(AppRoutes)) {
