@@ -1,7 +1,7 @@
 import { DefaultEnv } from "#/common/env";
-import { IExpressParams } from "#/common/types/random";
+import type { IExpressParams } from "#/common/types/random";
 
 export const DevModeMiddleware: IExpressParams = (_, res, next) => {
-	if (!DefaultEnv.DEV_MODE) return res.sendStatus(404);
+	if (!DefaultEnv.DEV_MODE) return res.status(404).send();
 	return next();
 };

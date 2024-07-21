@@ -2,7 +2,8 @@
 @port = 3000
 @base-path = api
 @version = v1
-@host = {{hostname}}:{{port}}/{{base-path}}/{{version}}
+@combined-path = {{hostname}}:{{port}}/{{base-path}}/{{version}}
+@url = http://{{combined-path}}
 
 ###
 // Ping
@@ -10,7 +11,7 @@ GET http://{{hostname}}:{{port}}/ping
 
 ### DEV-MODE
 // Insert new service
-POST http://{{host}}/services/
+POST {{url}}/services/
 Content-Type: application/json
 
 [
@@ -21,16 +22,15 @@ Content-Type: application/json
 
 ### DEV-MODE
 //  Deletes a service
-DELETE http://{{host}}/services/
+DELETE {{url}}/services/
   ?names=Edenor
 
 ### 
 // Get all services with revision status
-GET http://{{host}}/services/statuses
-Content-Type: application/json
+GET {{url}}/services/statuses
 
 ### DEV-MODE
 // Toggle service status
-POST http://{{host}}/services/statuses
+POST {{url}}/services/statuses
   ?toggle=Edenor
 

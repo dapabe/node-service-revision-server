@@ -1,9 +1,9 @@
 import { App } from "#/App";
 import type e from "express";
-import { CustomSupabaseError } from "../errors/CustomSupabase.error";
+import msgpack from "@msgpack/msgpack"
 
 /**
- *  Base Controller to acces and manipulate Supabase \
+ *  Base Controller to access and manipulate Supabase \
  *  data.
  */
 export abstract class Controller {
@@ -19,13 +19,15 @@ export abstract class Controller {
 		this.next = next
 	}
 
-	protected async handleRequestError(unk: unknown): Promise<e.Response> {
-		if (unk instanceof CustomSupabaseError) {
-			return this.res
-				.status(unk.status)
-				.send({ error: unk.statusText, message: unk.data.details });
-		}
-
-		return this.res.status(501).json({ error: "Unhandled error", message: JSON.stringify(unk) })
+	protected convertBinary(data: unknown): Buffer {
+		const enc = msgpack.encode(data)
+		return Buffer.from(enc.buffer, enc.byteOffset, enc.byteLength)
 	}
+
+	/**
+	 * 	Used to test
+	 */
+	// protected decodeBinary(buf: Buffer): unknown {
+	// 	return msgpack.decode(buf)
+	// }
 }
