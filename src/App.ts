@@ -11,6 +11,8 @@ import rateLimit from "express-rate-limit";
 import * as rfs from "rotating-file-stream";
 import path from "node:path";
 import type { IAppInitFlags } from "./common/types/app-flags";
+import { GlobalErrorMiddleware } from "./middlewares/global-error.middleware";
+import { CustomExpressError } from "./common/errors/CustomExpress.error";
 
 export class App {
 	#APP_CONFIG: IAppInitFlags;
@@ -73,6 +75,7 @@ export class App {
 		this.#EXP.use(express.urlencoded({ extended: true }));
 
 		//  Protection middlewares
+
 		this.#EXP.use(
 			rateLimit({
 				windowMs: 60_000,
@@ -95,6 +98,13 @@ export class App {
 	}
 
 	#configureRouter(): void {
+		// this.#EXP.use(
+		// 	"/",
+		// 	Router().get("/", (_1, _2) => {
+		// 		throw new CustomExpressError(501, "Test error", "Expected outcome")
+		// 	})
+		// )
+
 		this.#EXP.use(
 			"/ping",
 			Router().get("/", (_, res) => res.status(200).send()),
@@ -110,12 +120,10 @@ export class App {
 			}
 		}
 
-		this.#EXP.use((_, res, next): void => {
-			res.status(404);
-			res.json({
-				error: "Not found",
-			});
-			next();
+		this.#EXP.use(GlobalErrorMiddleware)
+
+		this.#EXP.use((_, res): void => {
+			res.status(404).send()
 		});
 	}
 }

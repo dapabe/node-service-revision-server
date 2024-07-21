@@ -1,5 +1,5 @@
 
-export abstract class CustomExpressError<T> extends Error {
+export class CustomExpressError extends Error {
   /**
    *  Http status
    */
@@ -11,12 +11,13 @@ export abstract class CustomExpressError<T> extends Error {
   /**
    *  Error data
    */
-  public data: T
-  constructor(status: number, statusText: string, data: T) {
+  public details: string
+  constructor(status: number, statusText: string, details: string) {
     super()
     this.name = this.constructor.name;
     this.status = status;
     this.statusText = statusText;
-    this.data = data
+    this.details = details
+    Error.captureStackTrace(this)
   }
 }
