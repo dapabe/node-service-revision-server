@@ -1,16 +1,15 @@
-@hostname = localhost
-@port = 3000
+@host = https://node-service-revision-server.onrender.com
 @base-path = api
 @version = v1
-@host = {{hostname}}:{{port}}/{{base-path}}/{{version}}
+@url = {{host}}/{{base-path}}/{{version}}
 
 ###
 // Ping
-GET http://{{hostname}}:{{port}}/ping
+GET {{host}}/ping
 
 ### DEV-MODE
 // Insert new service
-POST http://{{host}}/services/
+POST {{url}}/services/
 Content-Type: application/json
 
 [
@@ -21,16 +20,16 @@ Content-Type: application/json
 
 ### DEV-MODE
 //  Deletes a service
-DELETE http://{{host}}/services/
+DELETE {{url}}/services/
   ?names=Edenor
 
 ### 
 // Get all services with revision status
-GET http://{{host}}/services/statuses
+GET {{url}}/services/statuses
 Content-Type: application/json
 
 ### DEV-MODE
 // Toggle service status
-POST http://{{host}}/services/statuses
+POST {{url}}/services/statuses
   ?toggle=Edenor
 

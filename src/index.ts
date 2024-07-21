@@ -1,7 +1,14 @@
 import { App } from "./App";
 import { DefaultEnv } from "./common/env";
 
-const server = await new App().start()
+const server = await new App({
+	/**
+	 * 	If the provider in which the app is deployed cant access
+	 * 	server files, ex: Free tier doesnt allow access, just log
+	 * 	incoming requests.
+	 */
+	loggerPath: DefaultEnv.DEV_MODE ? "dist" : undefined
+}).start()
 
 server.listen(DefaultEnv.PORT, DefaultEnv.HOSTNAME);
 
