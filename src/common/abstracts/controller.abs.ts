@@ -26,6 +26,6 @@ export abstract class Controller {
 				.send({ error: unk.statusText, message: unk.data.details });
 		}
 
-		return this.res.status(501).send({ error: "Unhandled error", message: JSON.stringify(unk) })
+		return this.res.status(501).json({ error: "Unhandled error", message: JSON.stringify(unk) })
 	}
 }

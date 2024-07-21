@@ -17,7 +17,7 @@ export class ServicesController extends Controller {
 				record[service_name] = on_revision;
 			}
 
-			return this.res.status(res.status).send(record);
+			return this.res.status(res.status).json(record);
 		} catch (error) {
 			return await this.handleRequestError(error)
 		}
@@ -46,7 +46,7 @@ export class ServicesController extends Controller {
 
 			if (res2.error) throw new CustomSupabaseError(res2.status, res2.statusText, res2.error)
 
-			return this.res.status(res2.status).send(res2.statusText);
+			return this.res.status(res2.status).json(res2.statusText);
 		} catch (error) {
 			return await this.handleRequestError(error)
 		}
@@ -60,7 +60,7 @@ export class ServicesController extends Controller {
 
 			if (res.error) throw new CustomSupabaseError(res.status, res.statusText, res.error)
 
-			return this.res.status(res.status).send(res.statusText);
+			return this.res.status(res.status).json(res.statusText);
 		} catch (error) {
 			return await this.handleRequestError(error)
 		}
@@ -75,7 +75,7 @@ export class ServicesController extends Controller {
 
 			if (res.error) throw new CustomSupabaseError(res.status, res.statusText, res.error)
 
-			return this.res.status(res.status).send(res.statusText);
+			return this.res.status(res.status).json(res.statusText);
 		} catch (error) {
 			return await this.handleRequestError(error)
 		}
