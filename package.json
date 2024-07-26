@@ -15,8 +15,9 @@
 	"author": "Daniel Patricio Becerra",
 	"license": "ISC",
 	"dependencies": {
+		"@libsql/client": "0.7.0",
 		"@msgpack/msgpack": "3.0.0-beta2",
-		"@supabase/supabase-js": "^2.44.3",
+		"drizzle-orm": "0.32.1",
 		"express": "4.19.2",
 		"express-rate-limit": "^7.3.1",
 		"helmet": "7.1.0",
@@ -31,6 +32,7 @@
 		"@types/morgan": "1.9.9",
 		"@types/node": "20.14.10",
 		"@types/swagger-ui-express": "4.1.6",
+		"drizzle-kit": "0.23.0",
 		"swagger-ui-express": "5.0.1",
 		"typescript": "5.5.3"
 	}

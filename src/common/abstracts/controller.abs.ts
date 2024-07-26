@@ -1,6 +1,6 @@
-import { App } from "#/App";
 import type e from "express";
 import msgpack from "@msgpack/msgpack"
+import { Database } from "#/database/Database";
 
 /**
  *  Base Controller to access and manipulate Supabase \
@@ -11,7 +11,7 @@ export abstract class Controller {
 	protected res: e.Response;
 	protected next: e.NextFunction;
 
-	protected CONN = App.SUPA;
+	protected CONN = Database.CONN;
 
 	constructor(req: e.Request, res: e.Response, next: e.NextFunction) {
 		this.req = req;

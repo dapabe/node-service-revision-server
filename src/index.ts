@@ -1,5 +1,8 @@
 import { App } from "./App";
-import { DefaultEnv } from "./common/env";
+import { Database } from "./database/Database";
+
+Database.connect()
+Database.populateDatabase()
 
 const server = await new App({
 	/**
@@ -7,10 +10,10 @@ const server = await new App({
 	 * 	server files, ex: Free tier doesnt allow access, just log
 	 * 	incoming requests.
 	 */
-	loggerPath: DefaultEnv.DEV_MODE ? "dist" : undefined
+	loggerPath: process.env.NODE_ENV === "development" ? "dist" : undefined
 }).start()
 
-server.listen(DefaultEnv.PORT, DefaultEnv.HOSTNAME);
+server.listen(process.env.SERVER_HOST, Number.parseInt(process.env.SERVER_PORT));
 
 server.on("error", (error: any) => {
 	if (error.syscall !== "listen") {
@@ -31,7 +34,7 @@ server.on("error", (error: any) => {
 
 server.on("listening", () => {
 	console.log(
-		`Server started in http://${DefaultEnv.HOSTNAME}:${DefaultEnv.PORT}, Process ID:${process.pid}`,
+		`Server started in http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}, Process ID:${process.pid}`,
 	);
 });
 
