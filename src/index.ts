@@ -1,8 +1,8 @@
 import { App } from "./App";
 import { Database } from "./database/Database";
 
-Database.connect()
-Database.populateDatabase()
+Database.startConnection()
+
 
 const server = await new App({
 	/**
@@ -13,7 +13,7 @@ const server = await new App({
 	loggerPath: process.env.NODE_ENV === "development" ? "dist" : undefined
 }).start()
 
-server.listen(process.env.SERVER_HOST, Number.parseInt(process.env.SERVER_PORT));
+server.listen(Number.parseInt(process.env.SERVER_PORT), process.env.SERVER_HOST);
 
 server.on("error", (error: any) => {
 	if (error.syscall !== "listen") {
@@ -25,6 +25,10 @@ server.on("error", (error: any) => {
 			break;
 		case "EADDRINUSE":
 			console.error("Port is already in use");
+			setTimeout(() => {
+				server.close();
+				server.listen(Number.parseInt(process.env.SERVER_PORT), process.env.SERVER_HOST);
+			}, 1000);
 			break;
 		default:
 			console.log(error);
