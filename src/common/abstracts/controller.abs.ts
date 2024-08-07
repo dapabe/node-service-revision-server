@@ -1,9 +1,9 @@
 import type e from "express";
-import msgpack from "@msgpack/msgpack"
+import msgpack from "@msgpack/msgpack";
 import { Database } from "#/database/Database";
 
 /**
- *  Base Controller to access and manipulate Supabase \
+ *  Base Controller to access and manipulate database \
  *  data.
  */
 export abstract class Controller {

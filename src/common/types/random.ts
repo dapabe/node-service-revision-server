@@ -1,8 +1,4 @@
-import express from "express";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "./supabase";
-
-export type DatabaseClient = SupabaseClient<Database>;
+import type express from "express";
 
 export type IExpressParams = (
 	req: express.Request,

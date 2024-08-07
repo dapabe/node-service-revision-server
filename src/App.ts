@@ -1,21 +1,22 @@
 import express, { Router } from "express";
 import * as http from "node:http";
-import { AppRoutes } from "./Router";
 import logger from "morgan";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import * as rfs from "rotating-file-stream";
 import path from "node:path";
-import type { IAppInitFlags } from "./common/types/app-flags";
+import type { IAppInitConfig } from "./common/types/app-flags";
 import { GlobalErrorMiddleware } from "./middlewares/global-error.middleware";
-import { Client } from "@libsql/client/.";
+import { TypedEnv } from ".";
+import swaggerUI from "swagger-ui-express";
+import swaggerDoc from "./assets/swagger.json";
 
 export class App {
-	#APP_CONFIG: IAppInitFlags;
+	#APP_CONFIG: IAppInitConfig;
 	readonly #EXP = express();
 	readonly #SERVER = http.createServer(this.#EXP);
 
-	constructor(initConfig: Partial<IAppInitFlags>) {
+	constructor(initConfig: IAppInitConfig) {
 		this.#APP_CONFIG = initConfig;
 	}
 
@@ -68,6 +69,12 @@ export class App {
 			res.header("Access-Control-Allow-Methods", "GET,OPTIONS");
 			next();
 		});
+
+		if (TypedEnv.stage === "development" || TypedEnv.stage === "backoffice") {
+			this.#EXP.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDoc, {
+				explorer: true
+			}))
+		}
 	}
 
 	#configureRouter(): void {
@@ -83,10 +90,10 @@ export class App {
 			Router().get("/", (_, res) => res.status(200).send()),
 		);
 
-		for (const [version, routes] of Object.entries(AppRoutes)) {
+		for (const [version, routes] of Object.entries(this.#APP_CONFIG.appRoutes)) {
 			for (const config of routes) {
 				this.#EXP.use(
-					`/api${version}${config.route.BASE_ROUTE_NAME}`,
+					`/api/${version}/${config.route.BASE_ROUTE_NAME}`,
 					...config.middlewares,
 					config.route.ROUTER,
 				);

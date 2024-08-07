@@ -1,10 +1,8 @@
-import type { IAppRoute } from "./common/types/route";
+import type { IAppInitConfig } from "./common/types/app-flags";
 import { ServicesRoute } from "./routes/services.route";
 
-export type VersionedAPI = "/v1";
-
-export const AppRoutes: Record<VersionedAPI, IAppRoute[]> = {
-	"/v1": [
+export const AppRoutes: IAppInitConfig["appRoutes"] = {
+	"v1": [
 		{
 			middlewares: [],
 			route: new ServicesRoute(),

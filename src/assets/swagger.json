@@ -1,0 +1,94 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "Service Revision Server DOCS",
+		"version": "0.0.0"
+	},
+	"tags": [
+		{
+			"name": "Info",
+			"description": "Server information"
+		}
+	],
+	"paths": {
+		"/ping": {
+			"get": {
+				"tags": ["Info"],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/services": {
+			"post": {
+				"description": "Insert new service name",
+				"parameters": [
+					{
+						"name": "example",
+						"in": "body",
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"service_name": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			},
+			"delete": {
+				"description": "Deletes services",
+				"parameters": [
+					{
+						"name": "names",
+						"in": "query",
+						"type": "string",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/services/statuses": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "Service names in binary",
+						"schema": {
+							"type": "integer"
+						}
+					}
+				}
+			},
+			"delete": {
+				"parameters": [
+					{
+						"name": "toggle",
+						"in": "query",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			}
+		}
+	}
+}

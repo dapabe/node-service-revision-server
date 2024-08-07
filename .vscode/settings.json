@@ -1,5 +1,12 @@
 {
 	"editor.codeActionsOnSave": {
-		"source.fixAll": "explicit"
-	}
+		"source.fixAll": "explicit",
+		"source.removeUnusedImports": "always"
+	},
+	"json.schemas": [
+		{
+			"url": "https://json.schemastore.org/swagger-2.0",
+			"fileMatch": ["swagger.json"]
+		}
+	]
 }

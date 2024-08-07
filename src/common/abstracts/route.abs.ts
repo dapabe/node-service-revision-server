@@ -1,6 +1,5 @@
 import type e from "express";
 import { Router } from "express";
-import type { IRoutePath } from "../types/route";
 import type { Controller } from "./controller.abs";
 
 /**
@@ -9,7 +8,7 @@ import type { Controller } from "./controller.abs";
  */
 export abstract class Route {
 	public ROUTER: Router;
-	public BASE_ROUTE_NAME!: IRoutePath;
+	public BASE_ROUTE_NAME!: string;
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	#CONTROLLER: any;
 

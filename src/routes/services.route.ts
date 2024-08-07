@@ -8,7 +8,7 @@ import { z } from "zod";
 export class ServicesRoute extends Route {
 	constructor() {
 		super(ServicesController);
-		this.BASE_ROUTE_NAME = "/services";
+		this.BASE_ROUTE_NAME = "services";
 
 		/**
 		 * 	Create new services
