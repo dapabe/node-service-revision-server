@@ -6,14 +6,22 @@
 	},
 	"tags": [
 		{
-			"name": "Info",
+			"name": "Server",
 			"description": "Server information"
+		},
+		{
+			"name": "Service names",
+			"description": "Related to service names"
+		},
+		{
+			"name": "Service statuses",
+			"description": "Related to service status"
 		}
 	],
 	"paths": {
 		"/ping": {
 			"get": {
-				"tags": ["Info"],
+				"tags": ["Server"],
 				"responses": {
 					"200": {
 						"description": ""
@@ -23,6 +31,7 @@
 		},
 		"/api/v1/services": {
 			"post": {
+				"tags": ["Service names"],
 				"description": "Insert new service name",
 				"parameters": [
 					{
@@ -48,6 +57,7 @@
 				}
 			},
 			"delete": {
+				"tags": ["Service names"],
 				"description": "Deletes services",
 				"parameters": [
 					{
@@ -60,12 +70,19 @@
 				"responses": {
 					"200": {
 						"description": ""
+					},
+					"204": {
+						"description": ""
+					},
+					"404": {
+						"description": ""
 					}
 				}
 			}
 		},
 		"/api/v1/services/statuses": {
 			"get": {
+				"tags": ["Service statuses"],
 				"responses": {
 					"200": {
 						"description": "Service names in binary",
@@ -76,6 +93,7 @@
 				}
 			},
 			"delete": {
+				"tags": ["Service statuses"],
 				"parameters": [
 					{
 						"name": "toggle",
@@ -85,6 +103,12 @@
 				],
 				"responses": {
 					"200": {
+						"description": ""
+					},
+					"204": {
+						"description": ""
+					},
+					"404": {
 						"description": ""
 					}
 				}

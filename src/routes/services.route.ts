@@ -1,6 +1,6 @@
 import { Route } from "#/common/abstracts/route.abs";
 import { ServicesController } from "#/controllers/services.controller";
-import { DevModeMiddleware } from "#/middlewares/dev-mode.middleware";
+import { StageModeMiddleware } from "#/middlewares/stage-mode.middleware";
 import { BodyValidator } from "#/validators/body.validator";
 import { QueryValidator } from "#/validators/query.validator";
 import { z } from "zod";
@@ -15,7 +15,7 @@ export class ServicesRoute extends Route {
 		 */
 		this.ROUTER.post(
 			"/",
-			DevModeMiddleware,
+			StageModeMiddleware("backoffice"),
 			BodyValidator(
 				z
 					.object({
@@ -32,7 +32,7 @@ export class ServicesRoute extends Route {
 		 */
 		this.ROUTER.delete(
 			"/",
-			DevModeMiddleware,
+			StageModeMiddleware("backoffice"),
 			QueryValidator({
 				names: z.string(),
 			}),
@@ -52,7 +52,7 @@ export class ServicesRoute extends Route {
 		 */
 		this.ROUTER.post(
 			"/statuses",
-			DevModeMiddleware,
+			StageModeMiddleware("backoffice"),
 			QueryValidator({
 				toggle: z.string(),
 			}),

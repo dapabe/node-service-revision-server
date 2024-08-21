@@ -1,5 +1,4 @@
 import { Controller } from "#/common/abstracts/controller.abs";
-import { CustomExpressError } from "#/common/errors/CustomExpress.error";
 
 export class ServicesController extends Controller {
 
@@ -17,6 +16,7 @@ export class ServicesController extends Controller {
 		// }
 
 		// return this.res.status(res.status).send(this.convertBinary(record));
+		return this.res.status(200).send("FUNCA")
 	}
 
 	async toggleStatus() {
@@ -53,7 +53,7 @@ export class ServicesController extends Controller {
 		// if (res.error) return this.next(new CustomExpressError(res.status, res.statusText, res.error.details))
 
 		// return this.res.status(res.status).send(res.statusText);
-
+		return this.res.send("FUNCA")
 	}
 
 	async delete() {
@@ -65,5 +65,6 @@ export class ServicesController extends Controller {
 		// if (res.error) return this.next(new CustomExpressError(res.status, res.statusText, res.error.details))
 
 		// return this.res.status(res.status).send(res.statusText);
+		return this.res.send("DELETED")
 	}
 }

@@ -72,7 +72,8 @@ export class App {
 
 		if (TypedEnv.stage === "development" || TypedEnv.stage === "backoffice") {
 			this.#EXP.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDoc, {
-				explorer: true
+				explorer: true,
+				customSiteTitle: "Service Revision Server"
 			}))
 		}
 	}
@@ -102,8 +103,9 @@ export class App {
 
 		this.#EXP.use(GlobalErrorMiddleware)
 
-		this.#EXP.use((_, res): void => {
+		this.#EXP.use((_, res) => {
 			res.status(404).send()
 		});
+
 	}
 }

@@ -21,6 +21,7 @@ const EnvSchema = z.object({
 	db_common_token: process.env.DB_COMMON_TOKEN
 })
 
+
 if (EnvSchema.error) {
 	console.log(EnvSchema.error.errors)
 	process.exit(1)

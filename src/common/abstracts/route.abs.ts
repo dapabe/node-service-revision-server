@@ -20,7 +20,6 @@ export abstract class Route {
 	/**
 	 * Passing down the method to controller.
 	 */
-
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	protected handler(action: () => void): any {
 		return (req: e.Request, res: e.Response, next: e.NextFunction) =>
